@@ -1,6 +1,6 @@
 import React from "react";
-import ProductModel from "../models/productModel";
 import styled from "styled-components";
+import ProductModel from "../models/productModel";
 
 const ProductContainer = styled.div`
   & a {

@@ -22,13 +22,13 @@ const ListContainer = styled.div`
   }
 `;
 
-interface GenerericResponsiveList {
-  items: any[];
-  children(item: any): JSX.Element; //render props pattern
+interface GenericResponsiveListProps {
+  items: any[]; //it is generic component it does not need know what is actual type of items
+  children: (item: any) => JSX.Element; //render props pattern
 }
 
-const GenerericResponsiveList: React.FC<GenerericResponsiveList> = (
-  props: GenerericResponsiveList
+const GenericResponsiveList: React.FC<GenericResponsiveListProps> = (
+  props: GenericResponsiveListProps
 ): React.ReactNode => {
   return (
     <ListContainer>
@@ -37,4 +37,4 @@ const GenerericResponsiveList: React.FC<GenerericResponsiveList> = (
   );
 };
 
-export default GenerericResponsiveList;
+export default GenericResponsiveList;
