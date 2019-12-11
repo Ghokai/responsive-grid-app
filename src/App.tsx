@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import ProductApi from "./api/productApi";
+import GenerericResponsiveList from "./components/GenerericResponsiveList";
+import Product from "./components/Product";
+import ProductModel from "./models/productModel";
 
-const App: React.FC = () => {
+const App: React.FC = (): React.ReactNode => {
+  const [productList, setProductList] = useState([]);
+  useEffect(() => {
+    const getProductsList = async () => {
+      const response = await ProductApi.getProducts();
+      setProductList(response);
+      console.log(response);
+    };
+    getProductsList();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <GenerericResponsiveList items={productList}>
+        {(item: ProductModel) => (
+          <Product key={item.id} product={item}></Product>
+        )}
+      </GenerericResponsiveList>
     </div>
   );
-}
+};
 
 export default App;
