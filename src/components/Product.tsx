@@ -21,6 +21,7 @@ const ProductContainer = styled.div`
     &:hover {
       transform: scale(1.05);
       transition: 0.4s ease-out;
+      opacity: 0.8;
     }
 
     & div.name {
@@ -52,9 +53,9 @@ const ProductContainer = styled.div`
 interface ProductProps {
   product: ProductModel;
 }
-const Product: React.FC<ProductProps> = ({
+const Product: React.FunctionComponent<ProductProps> = ({
   product: { id, name, slug, brand, type, image, price, size, rating }
-}: ProductProps): React.ReactNode => {
+}: ProductProps): React.ReactElement => {
   const convertToReadablePrice = (price: number): string => {
     const priceStr = price.toString();
     return `ab ${priceStr.substring(0, priceStr.length - 2) +
@@ -79,4 +80,4 @@ const Product: React.FC<ProductProps> = ({
   );
 };
 
-export default Product;
+export default React.memo(Product);

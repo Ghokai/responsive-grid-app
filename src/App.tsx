@@ -1,7 +1,7 @@
 import React from "react";
 import ProductsPage from "./components/ProductsPage";
-
-const App: React.FC = (): React.ReactNode => {
+import ProductListContextWrapper from "./components/ProductListContext";
+const App: React.FunctionComponent = (): React.ReactElement => {
   return <ProductsPage></ProductsPage>;
 };
 

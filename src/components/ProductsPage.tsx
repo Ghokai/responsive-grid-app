@@ -1,25 +1,75 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import ProductApi from "../api/productApi";
 import ProductModel from "../models/productModel";
 import GenericResponsiveList from "./GenericResponsiveList";
 import Product from "./Product";
+import useApi from "../hooks/useApi";
+import ProductListContextHOC, {
+  ProductListContext,
+  ProductListActionType
+} from "./ProductListContext";
+import ProductHeader from "./ProductsHeader";
+import styled from "styled-components";
 
-const ProductsPage: React.FC = (): React.ReactNode => {
-  const [productList, setProductList] = useState([]);
+const ProductsPageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 40px 5%;
+`;
+
+const ProductsPage: React.FunctionComponent = (): React.ReactElement => {
+  const { fetchApi, response, loading, error } = useApi(ProductApi.getProducts);
+  const {
+    state: {
+      products,
+      brandList,
+      typeList,
+      filterBrand,
+      filterType,
+      sortField,
+      sortDirection,
+      displayedProducts
+    },
+    dispatch
+  } = useContext(ProductListContext);
+
+  console.log(displayedProducts);
+  console.log(products);
+  console.log(brandList);
+  console.log(typeList);
+  // console.log(dispatch);
+
   useEffect(() => {
-    const getProductsList = async () => {
-      const response = await ProductApi.getProducts();
-      setProductList(response);
-      console.log(response);
-    };
-    getProductsList();
-  }, []);
+    // console.log(response);
+    dispatch({
+      type: ProductListActionType.SET_PRODUCT_LIST,
+      payload: response
+    });
+  }, [response]);
+
+  const renderProductItem = (item: ProductModel) => (
+    <Product key={item.id} product={item}></Product>
+  );
+
+  // if (loading || !displayedProducts) {
+  //   return <div>Loading...</div>;
+  // }
+  if (error) {
+    return <div>Error...</div>;
+  }
 
   return (
-    <GenericResponsiveList items={productList}>
-      {(item: ProductModel) => <Product key={item.id} product={item}></Product>}
-    </GenericResponsiveList>
+    <ProductsPageContainer>
+      <ProductHeader fetchItems={fetchApi}></ProductHeader>
+      {loading || !displayedProducts ? (
+        <div>Loading</div>
+      ) : (
+        <GenericResponsiveList items={displayedProducts}>
+          {renderProductItem}
+        </GenericResponsiveList>
+      )}
+    </ProductsPageContainer>
   );
 };
 
-export default ProductsPage;
+export default ProductListContextHOC(ProductsPage);
