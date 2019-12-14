@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
+//reusable custom hook
 const useApi = (apiFn: () => Promise<any>) => {
   const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchApi = async () => {
+  const fetchApi = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -18,12 +19,12 @@ const useApi = (apiFn: () => Promise<any>) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [apiFn]);
 
   useEffect(() => {
     console.log("api called");
     fetchApi();
-  }, [apiFn]);
+  }, [fetchApi]);
 
   return { fetchApi, response, loading, error };
 };

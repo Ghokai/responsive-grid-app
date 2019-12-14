@@ -1,15 +1,15 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext, useEffect } from "react";
+import styled from "styled-components";
 import ProductApi from "../api/productApi";
-import ProductModel from "../models/productModel";
-import GenericResponsiveList from "./GenericResponsiveList";
-import Product from "./Product";
 import useApi from "../hooks/useApi";
+import ProductModel from "../models/productModel";
+import GenericResponsiveList from "./common/GenericResponsiveList";
+import Product from "./Product";
 import ProductListContextHOC, {
-  ProductListContext,
-  ProductListActionType
+  ProductListActionType,
+  ProductListContext
 } from "./ProductListContext";
 import ProductHeader from "./ProductsHeader";
-import styled from "styled-components";
 
 const ProductsPageContainer = styled.div`
   display: flex;
@@ -17,52 +17,39 @@ const ProductsPageContainer = styled.div`
   margin: 40px 5%;
 `;
 
+const Loading = styled.div`
+  margin-top: 40px;
+  width: 100%;
+  text-align: center;
+`;
+
 const ProductsPage: React.FunctionComponent = (): React.ReactElement => {
   const { fetchApi, response, loading, error } = useApi(ProductApi.getProducts);
   const {
-    state: {
-      products,
-      brandList,
-      typeList,
-      filterBrand,
-      filterType,
-      sortField,
-      sortDirection,
-      displayedProducts
-    },
+    state: { displayedProducts },
     dispatch
   } = useContext(ProductListContext);
 
-  console.log(displayedProducts);
-  console.log(products);
-  console.log(brandList);
-  console.log(typeList);
-  // console.log(dispatch);
-
   useEffect(() => {
-    // console.log(response);
     dispatch({
       type: ProductListActionType.SET_PRODUCT_LIST,
       payload: response
     });
-  }, [response]);
+  }, [response, dispatch]);
 
   const renderProductItem = (item: ProductModel) => (
     <Product key={item.id} product={item}></Product>
   );
 
-  // if (loading || !displayedProducts) {
-  //   return <div>Loading...</div>;
-  // }
   if (error) {
-    return <div>Error...</div>;
+    return <div>Error Occured...</div>;
   }
 
   return (
     <ProductsPageContainer>
       <ProductHeader fetchItems={fetchApi}></ProductHeader>
-      {loading || !displayedProducts ? (
-        <div>Loading</div>
+      {loading ? (
+        <Loading>Products are Loading...</Loading>
       ) : (
         <GenericResponsiveList items={displayedProducts}>
           {renderProductItem}

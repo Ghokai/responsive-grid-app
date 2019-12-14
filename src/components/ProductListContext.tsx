@@ -99,8 +99,12 @@ const productListReducer = (
       return {
         ...state,
         products: action.payload,
-        brandList: getDistinctPropsFromArray(action.payload, "brand"),
-        typeList: getDistinctPropsFromArray(action.payload, "type"),
+        brandList: action.payload
+          ? getDistinctPropsFromArray(action.payload, "brand")
+          : state.brandList,
+        typeList: action.payload
+          ? getDistinctPropsFromArray(action.payload, "type")
+          : state.typeList,
         displayedProducts: setDisplayedProducts(
           action.payload,
           state.filterBrand,

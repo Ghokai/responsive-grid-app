@@ -8,4 +8,5 @@ export default interface ProductModel {
   price: number;
   size: string;
   rating: number;
+  [key: string]: any; // ProductModel is indexable; not a new property
 }

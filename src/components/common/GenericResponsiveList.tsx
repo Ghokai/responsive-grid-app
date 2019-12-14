@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import DeviceSize from "../utils/deviceSize";
+import DeviceSize from "../../utils/deviceSize";
 
 const ListContainer = styled.div`
   display: flex;
