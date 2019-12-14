@@ -5,10 +5,9 @@ import useApi from "../hooks/useApi";
 import ProductModel from "../models/productModel";
 import GenericResponsiveList from "./common/GenericResponsiveList";
 import Product from "./Product";
-import ProductListContextHOC, {
-  ProductListActionType,
-  ProductListContext
-} from "./ProductListContext";
+import { ProductListReducerActionType } from "../reducer/productListReducer";
+import { ProductListContext } from "./ProductListContextWrapper";
+import ProductListContextHOC from "./ProductListContextHOC";
 import ProductHeader from "./ProductsHeader";
 
 const ProductsPageContainer = styled.div`
@@ -21,6 +20,7 @@ const Loading = styled.div`
   margin-top: 40px;
   width: 100%;
   text-align: center;
+  font-style: italic;
 `;
 
 const ProductsPage: React.FunctionComponent = (): React.ReactElement => {
@@ -32,7 +32,7 @@ const ProductsPage: React.FunctionComponent = (): React.ReactElement => {
 
   useEffect(() => {
     dispatch({
-      type: ProductListActionType.SET_PRODUCT_LIST,
+      type: ProductListReducerActionType.SET_PRODUCT_LIST,
       payload: response
     });
   }, [response, dispatch]);
@@ -47,9 +47,9 @@ const ProductsPage: React.FunctionComponent = (): React.ReactElement => {
 
   return (
     <ProductsPageContainer>
-      <ProductHeader fetchItems={fetchApi}></ProductHeader>
+      <ProductHeader loading={loading} fetchItems={fetchApi}></ProductHeader>
       {loading ? (
-        <Loading>Products are Loading...</Loading>
+        <Loading>Products are loading...</Loading>
       ) : (
         <GenericResponsiveList items={displayedProducts}>
           {renderProductItem}

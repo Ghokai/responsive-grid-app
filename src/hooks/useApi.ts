@@ -22,7 +22,6 @@ const useApi = (apiFn: () => Promise<any>) => {
   }, [apiFn]);
 
   useEffect(() => {
-    console.log("api called");
     fetchApi();
   }, [fetchApi]);
 

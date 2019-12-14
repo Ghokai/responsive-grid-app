@@ -2,10 +2,8 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import Button from "./common/Button";
 import Select from "./common/Select";
-import {
-  ProductListActionType,
-  ProductListContext
-} from "./ProductListContext";
+import { ProductListContext } from "./ProductListContextWrapper";
+import { ProductListReducerActionType } from "../reducer/productListReducer";
 import DeviceSize from "../utils/deviceSize";
 
 const productSortFields = [
@@ -23,42 +21,31 @@ const sortDirections = [
 ];
 
 const ProductsHeaderContainer = styled.div`
-  @media ${DeviceSize.deviceWidths.tablet} {
-    height: 180px;
-    & > span {
-      float: left;
-    }
-  }
-  @media ${DeviceSize.deviceWidths.laptop} {
-    height: 60px;
-    & > span {
-      float: right;
-    }
-  }
   background-color: #ffe6ee;
   display: flex;
   padding: 10px 20px;
   flex-wrap: wrap;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
+  @media ${DeviceSize.deviceWidths.mobileL} {
+    flex-direction: column;
+  }
+  @media ${DeviceSize.deviceWidths.tablet} {
+    flex-direction: row;
+  }
   & > div {
-    margin: 10px 10px;
-    @media ${DeviceSize.deviceWidths.tablet} {
-      flex: 1 0 80%;
-    }
-    @media ${DeviceSize.deviceWidths.laptop} {
-      flex: 1 0 30%;
-    }
+    margin: 10px;
   }
 `;
 
 interface ProductsHeaderProps {
   fetchItems: () => Promise<void>;
+  loading: boolean;
 }
 
 const ProductsHeader: React.FunctionComponent<ProductsHeaderProps> = ({
-  fetchItems
+  fetchItems,
+  loading
 }: ProductsHeaderProps): React.ReactElement => {
   const {
     state: {
@@ -80,7 +67,7 @@ const ProductsHeader: React.FunctionComponent<ProductsHeaderProps> = ({
           value={filterType}
           onChange={event =>
             dispatch({
-              type: ProductListActionType.SET_FILTER_TYPE,
+              type: ProductListReducerActionType.SET_FILTER_TYPE,
               payload: event.target.value
             })
           }
@@ -96,7 +83,7 @@ const ProductsHeader: React.FunctionComponent<ProductsHeaderProps> = ({
           value={filterBrand}
           onChange={event =>
             dispatch({
-              type: ProductListActionType.SET_FILTER_BRAND,
+              type: ProductListReducerActionType.SET_FILTER_BRAND,
               payload: event.target.value
             })
           }
@@ -115,7 +102,7 @@ const ProductsHeader: React.FunctionComponent<ProductsHeaderProps> = ({
           value={sortField}
           onChange={event =>
             dispatch({
-              type: ProductListActionType.SET_ORDER_FIELD,
+              type: ProductListReducerActionType.SET_ORDER_FIELD,
               payload: {
                 sortField: event.target.value,
                 sortDirection: sortDirection
@@ -134,7 +121,7 @@ const ProductsHeader: React.FunctionComponent<ProductsHeaderProps> = ({
           value={sortDirection}
           onChange={event =>
             dispatch({
-              type: ProductListActionType.SET_ORDER_FIELD,
+              type: ProductListReducerActionType.SET_ORDER_FIELD,
               payload: {
                 sortField: sortField,
                 sortDirection: event.target.value
@@ -152,7 +139,7 @@ const ProductsHeader: React.FunctionComponent<ProductsHeaderProps> = ({
         </Select>
       </div>
       <span>
-        <Button primary onClick={fetchItems}>
+        <Button primary disabled={loading} onClick={fetchItems}>
           Fetch Products
         </Button>
       </span>
