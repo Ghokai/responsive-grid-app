@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+
+  product-list-app:
+    container_name: product-list-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8081:80'
