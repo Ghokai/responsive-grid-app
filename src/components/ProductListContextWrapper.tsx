@@ -10,6 +10,8 @@ interface ProductListContextModel {
   dispatch: React.Dispatch<ProductListReducerAction>;
 }
 
+//using third party library for state management will be over engineering for this application scope
+//so i decided to manage app state with context-api with useReducer
 export const ProductListContext = React.createContext<ProductListContextModel>({
   state: initialProductListReducerState,
   dispatch: () => {}
