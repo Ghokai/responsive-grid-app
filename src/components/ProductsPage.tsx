@@ -5,7 +5,7 @@ import useApi from "../hooks/useApi";
 import ProductModel from "../models/productModel";
 import GenericResponsiveList from "./common/GenericResponsiveList";
 import Product from "./Product";
-import { ProductListReducerActionType } from "../reducer/productListReducer";
+import { ProductListReducerActionType } from "../reducers/productListReducer";
 import { ProductListContext } from "./ProductListContextWrapper";
 import ProductListContextHOC from "./ProductListContextHOC";
 import ProductHeader from "./ProductsHeader";

@@ -3,7 +3,7 @@ import ProductListReducer, {
   initialProductListReducerState,
   ProductListReducerAction,
   ProductListReducerStateModel
-} from "../reducer/productListReducer";
+} from "../reducers/productListReducer";
 
 interface ProductListContextModel {
   state: ProductListReducerStateModel;

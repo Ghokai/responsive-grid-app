@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import ProductModel from "../models/productModel";
+import { FLACONI_URL } from "../constants";
 
 const ProductContainer = styled.div`
   & a {
@@ -62,9 +63,10 @@ const Product: React.FunctionComponent<ProductProps> = ({
       "," +
       priceStr.substring(2, priceStr.length)} €`;
   };
+
   return (
     <ProductContainer>
-      <a href={`https://www.flaconi.de/${slug}`}>
+      <a href={`${FLACONI_URL}${slug}`}>
         <div className="rating">
           <span title="rating">{rating}%</span>
         </div>

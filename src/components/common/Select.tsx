@@ -1,5 +1,6 @@
 import styled from "styled-components";
-const Select = styled.select`
+import React from "react";
+const SelectWrapper = styled.select`
   height: 35px;
   background: white;
   color: black;
@@ -16,5 +17,30 @@ const Select = styled.select`
     padding: 0px 2px 1px;
   }
 `;
+
+interface SelectProps {
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  defaultOptionLabel: string;
+  defaultOptionValue: string;
+  optionList: any[];
+  renderOption: (option: any) => React.ReactElement;
+}
+
+const Select: React.FunctionComponent<SelectProps> = ({
+  value,
+  onChange,
+  defaultOptionLabel,
+  defaultOptionValue,
+  optionList,
+  renderOption
+}: SelectProps): React.ReactElement => {
+  return (
+    <SelectWrapper value={value} onChange={onChange}>
+      <option value={defaultOptionValue}>{defaultOptionLabel}</option>
+      {optionList.map(renderOption)}
+    </SelectWrapper>
+  );
+};
 
 export default Select;

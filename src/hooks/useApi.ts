@@ -1,7 +1,14 @@
 import { useState, useEffect, useCallback } from "react";
 
+export interface useApiReturnType {
+  fetchApi: () => void;
+  response: any;
+  loading: boolean;
+  error: any;
+}
+
 //reusable custom hook
-const useApi = (apiFn: () => Promise<any>) => {
+const useApi = (apiFn: () => Promise<any>): useApiReturnType => {
   const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);

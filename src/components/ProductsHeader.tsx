@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Button from "./common/Button";
 import Select from "./common/Select";
 import { ProductListContext } from "./ProductListContextWrapper";
-import { ProductListReducerActionType } from "../reducer/productListReducer";
+import { ProductListReducerActionType } from "../reducers/productListReducer";
 import DeviceSize from "../utils/deviceSize";
 
 const productSortFields = [
@@ -39,7 +39,7 @@ const ProductsHeaderContainer = styled.div`
 `;
 
 interface ProductsHeaderProps {
-  fetchItems: () => Promise<void>;
+  fetchItems: () => void;
   loading: boolean;
 }
 
@@ -65,42 +65,44 @@ const ProductsHeader: React.FunctionComponent<ProductsHeaderProps> = ({
         <label>Filter By:</label>
         <Select
           value={filterType}
-          onChange={event =>
+          onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
             dispatch({
               type: ProductListReducerActionType.SET_FILTER_TYPE,
               payload: event.target.value
             })
           }
-        >
-          <option value="">All Types</option>
-          {typeList.map(type => (
+          defaultOptionLabel="All Types"
+          defaultOptionValue=""
+          optionList={typeList}
+          renderOption={type => (
             <option key={type} value={type}>
               {type}
             </option>
-          ))}
-        </Select>
+          )}
+        ></Select>
         <Select
           value={filterBrand}
-          onChange={event =>
+          onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
             dispatch({
               type: ProductListReducerActionType.SET_FILTER_BRAND,
               payload: event.target.value
             })
           }
-        >
-          <option value="">All Brands</option>
-          {brandList.map(brand => (
+          defaultOptionLabel="All Brands"
+          defaultOptionValue=""
+          optionList={brandList}
+          renderOption={brand => (
             <option key={brand} value={brand}>
               {brand}
             </option>
-          ))}
-        </Select>
+          )}
+        ></Select>
       </div>
       <div>
         <label>Sort By:</label>
         <Select
           value={sortField}
-          onChange={event =>
+          onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
             dispatch({
               type: ProductListReducerActionType.SET_ORDER_FIELD,
               payload: {
@@ -109,17 +111,18 @@ const ProductsHeader: React.FunctionComponent<ProductsHeaderProps> = ({
               }
             })
           }
-        >
-          <option value="">Sort Field</option>
-          {productSortFields.map(sortField => (
+          defaultOptionLabel="Sort Field"
+          defaultOptionValue=""
+          optionList={productSortFields}
+          renderOption={sortField => (
             <option key={sortField.value} value={sortField.value}>
               {sortField.text}
             </option>
-          ))}
-        </Select>
+          )}
+        ></Select>
         <Select
           value={sortDirection}
-          onChange={event =>
+          onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
             dispatch({
               type: ProductListReducerActionType.SET_ORDER_FIELD,
               payload: {
@@ -128,15 +131,15 @@ const ProductsHeader: React.FunctionComponent<ProductsHeaderProps> = ({
               }
             })
           }
-        >
-          <option value="">Sort Direction</option>
-          {sortDirections.map(sortDirection => (
+          defaultOptionLabel="Sort Direction"
+          defaultOptionValue=""
+          optionList={sortDirections}
+          renderOption={sortDirection => (
             <option key={sortDirection.value} value={sortDirection.value}>
               {sortDirection.text}
             </option>
-          ))}
-          ))}
-        </Select>
+          )}
+        ></Select>
       </div>
       <span>
         <Button primary disabled={loading} onClick={fetchItems}>
