@@ -5,8 +5,8 @@ const SelectWrapper = styled.select`
   background: white;
   color: black;
   padding-left: 5px;
-  font-size: 14px;
-  margin-left: 10px;
+  font-size: 12px;
+  margin-left: 5px;
 
   option {
     color: black;

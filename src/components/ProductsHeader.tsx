@@ -23,7 +23,7 @@ const sortDirections = [
 const ProductsHeaderContainer = styled.div`
   background-color: #ffe6ee;
   display: flex;
-  padding: 10px 20px;
+  padding: 10px;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
